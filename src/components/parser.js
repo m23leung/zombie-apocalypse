@@ -1,7 +1,7 @@
 /************************************************************
 * Purpose: Parses user input to invoke appropriate commands
 *************************************************************/
-import commandList from "../constants/commandList";
+import directions from "../constants/directions";
 import fs from 'fs';
 
 export default class parser {

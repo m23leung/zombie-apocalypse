@@ -5,7 +5,7 @@
 // Package Imports
 import Zombie from "./src/components/zombie";
 import World from "./src/components/world";
-import { placeUnit } from './src/store/storeReducer';
+import { placeZombie, placeCreature, moveZombie } from './src/store/storeReducer';
 
 // Initialize robot
 let zombie = new Zombie();
@@ -24,6 +24,11 @@ const readLine = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout
 });
+
+String.prototype.replaceAll = function(str1, str2, ignore) 
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+} 
 
 var i = 0;
 // Retrieve User Input
@@ -48,39 +53,46 @@ readLine.on("line", (input) => {
         zombie.setWorld(world);
 
     } else if ( i == 1) {
-
         let input2 = input.trim();
         input2 = input2.replace("(", "").replace(")", "");;
 
         let [x,y] = input2.split(',');  
-        console.log("X,Y", x,y);
+        console.log(`Setting Initial Zombie Position to (${x},${y})`);
         
-        let action = [placeUnit({ 'x': x, 
+        let action = [placeZombie({ 'x': x, 
                             'y': y, 
                             'xMax': zombie.getWorld().getMaxX(), 
                             'yMax': zombie.getWorld().getMaxY()
                         })];
         
         action.forEach(zombie.getStore().dispatch);  
+
     } else if ( i == 2) {
         let input2 = input.trim();
+        input2 = input2.replaceAll(")(" , ",").replaceAll('(','').replaceAll(')','');
+        input2 = input2.split(",");
+
+        for (let i=0; i < input2.length; i+=2) {
+            console.log(`Setting creature with coordinates (${input2[i]},${input2[i+1]})`);
+
+            let action = [placeCreature({ 'x': input2[i], 
+                                          'y': input2[i+1], 
+                                          'xMax': zombie.getWorld().getMaxX(), 
+                                          'yMax': zombie.getWorld().getMaxY()
+                                        })];
+
+            action.forEach(zombie.getStore().dispatch);  
+        }
 
     } else if ( i == 3) {
 
-        let input2 = input.trim();
-        let commands = input2.split('');  
-        console.log(commands);
-        /*
-        console.log("X,Y", x,y);
-        
-        let action = [placeUnit({ 'x': x, 
-                            'y': y, 
-                            'xMax': zombie.getWorld().getMaxX(), 
-                            'yMax': zombie.getWorld().getMaxY()
-                        })];
-        
-        action.forEach(zombie.getStore().dispatch);  
-        */
+        let commands = input.trim().split('');  
+        let action = [];
+     
+        action.push(moveZombie({ 'commands': commands,
+                                 'id' : 0 }));
+      
+        action.forEach(zombie.getStore().dispatch);          
         i = -1;
     } else {
         console.log("Unknown input, resetting back to default state");

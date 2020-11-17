@@ -4,11 +4,19 @@
 ********************************/
 
 import { command } from "./command";
+import { isValidMove } from "../validations/validations";
 
 export default class place extends command {
-    
+
+
+    constructor(state, action, type='zombie') {
+        super(state, action);
+        this.type = type;
+
+      }
+  
     execute() {
-        this.placeUnit();   
+        this.placeUnit(this.type);   
         return this;
     }
 
@@ -16,13 +24,13 @@ export default class place extends command {
  * Places the unit on the board.
  * If the unit tries to place outside boundaries, it will ignore the command.
  */   
-    placeUnit() {
+    placeUnit(type) {
+
         const { x, y, xMax, yMax } = this.action.payload;      
         let state = this.state;
-        console.log(`x,y,xmax,ymax: ${x},${y},${xMax},${yMax}`)
-        
+
         // Only place unit if within table boundaries and valid direction
-        //if ( isValidMove(x, xMax, y, yMax) &&  {
+        if ( isValidMove(x, xMax, y, yMax)) {
     
              // Set unit coordinates and direction
              state.x = x;
@@ -34,7 +42,9 @@ export default class place extends command {
              // Set table dimensions
              state.xMax = xMax;
              state.yMax = yMax;
-
-        //}
+             state.zombiesToProcess.push({ 'x': x, 'xMax': xMax, 'yMax': yMax, 'y': y, 'id': state.zombieCount});
+             //console.log(`PLACING ${state.x} ${state.y}`)
+             state.zombieCount++;
+        }
     }
 }
