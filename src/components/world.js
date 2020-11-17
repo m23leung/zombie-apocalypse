@@ -21,11 +21,11 @@ export default class world {
       this.yMax = width -  1;
     }
 
-    getX() {
+    getMaxX() {
         return this.xMax;
     }
 
-    getY() {
+    getMaxY() {
         return this.yMax;
     }
 
