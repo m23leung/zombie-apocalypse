@@ -10,14 +10,23 @@
 <img src="zombie.png" alt="zombie" width="415" height="515"/>
 
 ## Description
-Zombie Apocalypse is a program that takes in commands from ther terminal. It walks around the world and infects creatures, whom will become zombies if touched.
+After the nuclear war, a strange and deadly virus has infected the planet producing mindless zombies. These zombies now wander the world converting any remaining living creatures they find to zombies as well. It walks around the world and infects creatures, whom will become zombies if touched.
 
 At the beginning of the program, a single zombie awakes and begins to move around thegrid following a sequence of movements. Valid movements are Up, Down, Left, Right. The movement sequence is represented by a string of single character movements, e.g. RDRU
-(Right, Down, Right, Up). Zombies can move through the edge of the grid, appearing on the directly opposite side. 
+(Right, Down, Right, Up). Zombies can move through the edge of the grid, appearing on the directly opposite side. The world is represented by an N x N grid on which zombies and creatures live.
 
 As a zombie moves, if it ends up on the same square as a creature, the creature is transformed into another zombie. The creatures are aware of the zombie’s presence but are so frightened that they never move.
 
 Once a zombie has completed its movement, the first newly created zombie moves using the same sequence as the original zombie,then the second newly created zombie moves, and so on, in order of infection. Each zombie performs the same sequence of moves. Once all zombies have completed moving, the final positions of all zombies and creatures should be output, then the program ends.
+
+These are the order of valid commands:
+
+1. Dimension of grid (N)
+2. Initial position of zombie (X,Y)
+3. List of initial positions of the creatures (X1,Y1)(X2,Y2)(X3,Y3)
+4. Sequence of moves the zombies will make (RDLU)
+
+- The program will output the zombies' and creatures' final positions after moving
 
 Example input:
 - 4
@@ -30,6 +39,12 @@ Example output:
 - (1,1)(3,1)(3,2)(2,1)
 - creatures’ positions:
 - none
+
+READ textfiles/example.txt
+- You can use any textfile on your computer. The program will execute all the valid commands within.
+
+EXIT
+- Will close the program
 
 ## Technology Stack
 - Javascript
