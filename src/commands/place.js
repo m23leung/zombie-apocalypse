@@ -43,7 +43,6 @@ export default class place extends command {
         // Only place unit if within boundaries
         if ( isValidMove(x, xMax, y, yMax)) {
              if (type == units.CREATURE) {
-                //state.creatures.push(this.action.payload);  
                 state.creatures.push({ 'x': x, 'xMax': xMax, 'yMax': yMax, 'y': y, 'id': state.creatureCount});
                 state.creatureCount++;
              } else {

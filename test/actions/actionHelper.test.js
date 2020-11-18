@@ -4,35 +4,35 @@
 
 import { expect } from 'chai';
 import { printOutput, processMoveZombie, setCreaturesPosition, setZombiePosition, setWorld, getWorldLength  } from '../../src/actions/actionHelper'; 
-import Zombie from "../../src/components/zombie";
+import Program from "../../src/components/program";
 
 describe("actionHelper - Commands", function() {
 
     const dimensions = 10;
-    const zombie = new Zombie();
+    const program = new Program();
     const initialPosition = "(0,0)";
     const creaturesPosition = "(2,2) (4,4) (6,6) (8,8)";
     const directionCommands = "RDRU";
 
     it(`actionHelper - setWorld ${dimensions}x${dimensions}`, function() {
-        setWorld(dimensions, zombie);
-        expect(zombie.getWorld().getMaxX()).to.be.equal(dimensions-1);
-        expect(zombie.getWorld().getMaxY()).to.be.equal(dimensions-1);
+        setWorld(dimensions, program);
+        expect(program.getWorld().getMaxX()).to.be.equal(dimensions-1);
+        expect(program.getWorld().getMaxY()).to.be.equal(dimensions-1);
     })
 
     it(`actionHelper - setZombiePosition ${initialPosition}`, function() {
-        setZombiePosition(initialPosition, zombie);
-        const initialZombie = zombie.getStore().getState().zombiesToProcess[0];
+        setZombiePosition(initialPosition, program);
+        const initialZombie = program.getStore().getState().zombiesToProcess[0];
         expect(initialZombie.x).to.be.equal(0);
         expect(initialZombie.y).to.be.equal(0);
     })
     
     it(`actionHelper - setCreaturesPosition ${creaturesPosition}`, function() {
-        setCreaturesPosition(creaturesPosition, zombie);
+        setCreaturesPosition(creaturesPosition, program);
 
         let parseInput = creaturesPosition.replace(/\s/g, '').replaceAll(")(" , ",").replace(/[()]/g, '');
         parseInput = parseInput.split(",");
-        let creatureList = zombie.getStore().getState().creatures;
+        let creatureList = program.getStore().getState().creatures;
 
         for (let i = 0; i < creatureList.length; i++) {       
             let creature = creatureList[i];
@@ -42,11 +42,11 @@ describe("actionHelper - Commands", function() {
     })
 
     it(`actionHelper - moveZombie ${directionCommands}`, function() {
-        processMoveZombie(directionCommands, zombie);  
-        const initialZombie = zombie.getStore().getState().zombies[0];
+        processMoveZombie(directionCommands, program);  
+        const initialZombie = program.getStore().getState().zombies[0];
         expect(initialZombie.x).to.be.equal(2);
         expect(initialZombie.y).to.be.equal(0);        
-        //printOutput(zombie);
+        //printOutput(program);
     })
 
 });

@@ -5,14 +5,14 @@
 import { expect } from 'chai';
 import { printOutput, processMoveZombie, setCreaturesPosition, setZombiePosition, setWorld, getWorldLength  } from '../src/actions/actionHelper'; 
 import { parseReadCommand } from '../src/readHelper'; 
-import Zombie from "../src/components/zombie";
+import Program from "../src/components/program";
 
 let filePath1 = "testfiles/example.txt";
 let filePath2 = "testfiles/example2.txt";
 
 describe("integration - Sample Input", function() {
     
-    const zombie = new Zombie();
+    const program = new Program();
 
     const dimensions = 4;
     const initialPosition = "(3,1)";
@@ -21,14 +21,14 @@ describe("integration - Sample Input", function() {
     const finalZombiePositions = [[1,1],[3,1],[3,2],[2,1]];
 
     it(`actionHelper - setWorld ${dimensions}x${dimensions}`, function() {
-        setWorld(dimensions, zombie);
-        expect(zombie.getWorld().getMaxX()).to.be.equal(dimensions-1);
-        expect(zombie.getWorld().getMaxY()).to.be.equal(dimensions-1);
+        setWorld(dimensions, program);
+        expect(program.getWorld().getMaxX()).to.be.equal(dimensions-1);
+        expect(program.getWorld().getMaxY()).to.be.equal(dimensions-1);
     })
 
     it(`actionHelper - setZombiePosition ${initialPosition}`, function() {
-        setZombiePosition(initialPosition, zombie);
-        const initialZombie = zombie.getStore().getState().zombiesToProcess[0];
+        setZombiePosition(initialPosition, program);
+        const initialZombie = program.getStore().getState().zombiesToProcess[0];
         
         let parseInput = initialPosition.replace(/[()]/g, '');
         parseInput = parseInput.split(",");
@@ -38,11 +38,11 @@ describe("integration - Sample Input", function() {
     })
     
     it(`actionHelper - setCreaturesPosition ${creaturesPosition}`, function() {
-        setCreaturesPosition(creaturesPosition, zombie);
+        setCreaturesPosition(creaturesPosition, program);
 
         let parseInput = creaturesPosition.replace(/\s/g, '').replaceAll(")(" , ",").replace(/[()]/g, '');
         parseInput = parseInput.split(",");
-        let creatureList = zombie.getStore().getState().creatures;
+        let creatureList = program.getStore().getState().creatures;
 
         for (let i = 0; i < creatureList.length; i++) {       
             let creature = creatureList[i];
@@ -52,14 +52,14 @@ describe("integration - Sample Input", function() {
     })
 
     it(`integration - Sample Input - zombies' & creatures' positions after command: ${directionCommands}`, function() {
-        processMoveZombie(directionCommands, zombie);  
+        processMoveZombie(directionCommands, program);  
 
         for (let i=0; i < finalZombiePositions.length; i++) {
-            let zombieUnit = zombie.getStore().getState().zombies[i];
+            let zombieUnit = program.getStore().getState().zombies[i];
             expect(zombieUnit.x).to.be.equal(finalZombiePositions[i][0]);
             expect(zombieUnit.y).to.be.equal(finalZombiePositions[i][1]);        
         }
-        expect(zombie.getStore().getState().creatures.length).to.be.equal(0);
+        expect(program.getStore().getState().creatures.length).to.be.equal(0);
     })
 
 });
@@ -67,22 +67,21 @@ describe("integration - Sample Input", function() {
 describe("integration - Read Files", function() {
     
     it(`integration - Verify output from file ${filePath1}`, function() {
-        let zombie = new Zombie();
+        let program = new Program();
         let commands = parseReadCommand(filePath1);
 
-        setWorld(commands[0], zombie);
-        expect(zombie.getWorld().getMaxX()).to.be.equal(3);
-        expect(zombie.getWorld().getMaxY()).to.be.equal(3);
+        setWorld(commands[0], program);
+        expect(program.getWorld().getMaxX()).to.be.equal(3);
+        expect(program.getWorld().getMaxY()).to.be.equal(3);
 
         console.log(commands[1]);
-        setZombiePosition(commands[1], zombie);
-        let initialZombie = zombie.getStore().getState().zombiesToProcess[0];
-        console.log("INITIAL ZOMBIE: ", initialZombie);
+        setZombiePosition(commands[1], program);
+        let initialZombie = program.getStore().getState().zombiesToProcess[0];
         expect(initialZombie.x).to.be.equal(2);
         expect(initialZombie.y).to.be.equal(1);
 
-        setCreaturesPosition(commands[2], zombie);
-        let creatureList = zombie.getStore().getState().creatures;
+        setCreaturesPosition(commands[2], program);
+        let creatureList = program.getStore().getState().creatures;
         expect(creatureList[0].x).to.be.equal(0);
         expect(creatureList[0].y).to.be.equal(1);
         expect(creatureList[1].x).to.be.equal(1);
@@ -90,8 +89,8 @@ describe("integration - Read Files", function() {
         expect(creatureList[2].x).to.be.equal(3);
         expect(creatureList[2].y).to.be.equal(1);
 
-        processMoveZombie(commands[3], zombie); 
-        let zombieList = zombie.getStore().getState().zombies;  
+        processMoveZombie(commands[3], program); 
+        let zombieList = program.getStore().getState().zombies;  
         expect(zombieList[0].x).to.be.equal(3);
         expect(zombieList[0].y).to.be.equal(0);
         expect(zombieList[1].x).to.be.equal(2);
@@ -101,26 +100,26 @@ describe("integration - Read Files", function() {
         expect(zombieList[3].x).to.be.equal(0);
         expect(zombieList[3].y).to.be.equal(0);    
 
-        expect(zombie.getStore().getState().creatures.length).to.be.equal(0);    
+        expect(program.getStore().getState().creatures.length).to.be.equal(0);    
 
         //expect(parseInput.length).to.be.equal(4);
     }) 
 
     it(`integration - Verify output from file ${filePath2}`, function() {
-        let zombie = new Zombie();
+        let program = new Program();
         let commands = parseReadCommand(filePath2);
 
-        setWorld(commands[0], zombie);
-        expect(zombie.getWorld().getMaxX()).to.be.equal(3);
-        expect(zombie.getWorld().getMaxY()).to.be.equal(3);
+        setWorld(commands[0], program);
+        expect(program.getWorld().getMaxX()).to.be.equal(3);
+        expect(program.getWorld().getMaxY()).to.be.equal(3);
 
-        setZombiePosition(commands[1], zombie);
-        let initialZombie = zombie.getStore().getState().zombiesToProcess[0];
+        setZombiePosition(commands[1], program);
+        let initialZombie = program.getStore().getState().zombiesToProcess[0];
         expect(initialZombie.x).to.be.equal(3);
         expect(initialZombie.y).to.be.equal(1);
 
-        setCreaturesPosition(commands[2], zombie);
-        let creatureList = zombie.getStore().getState().creatures;
+        setCreaturesPosition(commands[2], program);
+        let creatureList = program.getStore().getState().creatures;
         expect(creatureList[0].x).to.be.equal(0);
         expect(creatureList[0].y).to.be.equal(1);
         expect(creatureList[1].x).to.be.equal(1);
@@ -128,8 +127,8 @@ describe("integration - Read Files", function() {
         expect(creatureList[2].x).to.be.equal(1);
         expect(creatureList[2].y).to.be.equal(1);
 
-        processMoveZombie(commands[3], zombie); 
-        let zombieList = zombie.getStore().getState().zombies;
+        processMoveZombie(commands[3], program); 
+        let zombieList = program.getStore().getState().zombies;
         expect(zombieList[0].x).to.be.equal(1);
         expect(zombieList[0].y).to.be.equal(1);
         expect(zombieList[1].x).to.be.equal(3);
@@ -139,6 +138,6 @@ describe("integration - Read Files", function() {
         expect(zombieList[3].x).to.be.equal(2);
         expect(zombieList[3].y).to.be.equal(1);    
 
-        expect(zombie.getStore().getState().creatures.length).to.be.equal(0);    
+        expect(program.getStore().getState().creatures.length).to.be.equal(0);    
     })  
 });
