@@ -13,7 +13,7 @@
 After the nuclear war, a strange and deadly virus has infected the planet producing mindless zombies. These zombies now wander the world converting any remaining living creatures they find to zombies as well. 
 
 At the beginning of the program, a single zombie awakes and begins to move around the grid following a sequence of movements. Valid movements are Up, Down, Left, Right. The movement sequence is represented by a string of single character movements, e.g. RDRU
-(Right, Down, Right, Up). Zombies can move through the edge of the grid, appearing on the directly opposite side. The world is represented by an N x N grid on which zombies and creatures live.
+(Right, Down, Right, Up). Zombies can move through the edge of the grid, appearing on the directly opposite side. The world is represented by an N x N grid on which zombies and creatures co-habitate.
 
 As a zombie moves, if it ends up on the same square as a creature, the creature is transformed into another zombie. The creatures are aware of the zombie’s presence but are so frightened that they never move. 
 
@@ -66,5 +66,5 @@ Note: Please make sure to have node.js installed.
 
 ![execution flow diagram](architecture_flow.png)
 
-- In terms of the program execution flow, the program first gets initialized. Afterwards, the world gets initialized. Once the user inputs from terminal, it gets parsed and then invokes the actionHelper to dispatch the appropriate action to the redux store. The validation functions are used to validate the input data and throw appropriate error messages. The redux store will then call the reducer with the appropriate dispatched command to be executed. Once the command is executed, the state will be mutated and saved (thanks to ImmerJS). In our case, this means the zombies' positions on the world will be updated after successfully execution.
+- In terms of the program execution flow, the program first gets initialized. Afterwards, the world gets initialized. Once the user inputs from terminal, it gets parsed and then invokes the actionHelper to dispatch the appropriate action to the redux store. The validation functions are used to validate the input data and throw appropriate error messages. The redux store will then call the reducer with the appropriate dispatched command to be executed. Once the command is executed, the state will be mutated and saved (thanks to ImmerJS). In our case, this means the zombies' positions on the world will be updated after successful execution.
 
