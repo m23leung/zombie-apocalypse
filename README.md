@@ -19,6 +19,18 @@ As a zombie moves, if it ends up on the same square as a creature, the creature 
 
 Once a zombie has completed its movement, the first newly created zombie moves using the same sequence as the original zombie,then the second newly created zombie moves, and so on, in order of infection. Each zombie performs the same sequence of moves. Once all zombies have completed moving, the final positions of all zombies and creatures should be output, then the program ends.
 
+Example input:
+4
+(3,1)
+(0,1)(1,2)(1,1)
+RDRU
+
+Example output:
+zombies’ positions:
+(1,1)(3,1)(3,2)(2,1)
+creatures’ positions:
+none
+
 ## Technology Stack
 - Javascript
 - Redux
