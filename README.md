@@ -7,7 +7,7 @@
 - [Design and Architecture](#design-and-architecture)
 - [Conclusion](#conclusion)
 
-<img src="zombie.png" alt="zombie" width="100" height="200"/>
+<img src="zombie.png" alt="zombie" width="515" height="515"/>
 
 ## Description
 Zombie Apocalypse is a program that permits a zombie to be controlled from your terminal. It walks around the world and infects creatures, whom will become zombies if touched.
