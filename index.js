@@ -4,7 +4,6 @@
 
 // Package Imports
 import Program from "./src/components/program";
-import { parseReadCommand } from "./src/readHelper";
 
 // Initialize program
 let program = new Program();

@@ -3,6 +3,7 @@
 ***************************************************************************/
 import configureStore from '../store/store';
 import { setZombiePosition, setCreaturesPosition, processMoveZombie, printOutput } from "../actions/actionHelper";
+import { parseReadCommand } from "../readHelper";
 import { notNumber } from "../constants/errorMessages";
 import World from "./world";
 import chalk from "chalk";
