@@ -6,6 +6,8 @@
 import Zombie from "./src/components/zombie";
 import World from "./src/components/world";
 import { placeZombie, placeCreature, moveZombie } from './src/store/storeReducer';
+import { notNumber} from "./src/constants/errorMessages";
+import fs from 'fs';
 
 // Initialize robot
 let zombie = new Zombie();
@@ -25,82 +27,56 @@ const readLine = readline.createInterface({
 	output: process.stdout
 });
 
-String.prototype.replaceAll = function(str1, str2, ignore) 
-{
-    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
-} 
-
-var i = 0;
+let i = 0;
 // Retrieve User Input
 readLine.on("line", (input) => { 
  
-    // Set Exit Prompt
+    // Exit Command
     if (input.toLowerCase().trim() === "exit") {
         console.log("\nSee you later!!!");
         process.exit(0);
-    }
 
-    if ( i == 0 ) { 
-        // Initialize table
-        const length = input.trim();
-        
-        if (isNaN(length)) {
-            return;
-        }
+    // Read Command (OPTIONAL)
+    // Command: read <file_path>
+    } else if (input.toLowerCase().trim().includes("read")) {
+        const fileName = input.split(" ")[1];
+        console.log(`READING FILE: ${fileName}`);
 
-        console.log(`Creating world with dimensions (${length}x${length})`)
-        const world = new World(length, length);   
-        zombie.setWorld(world);
+        const commands = parseReadCommand(fileName);
 
-    } else if ( i == 1) {
-        let input2 = input.trim();
-        input2 = input2.replace("(", "").replace(")", "");;
+        setWorld(commands[0], zombie);
+        setZombiePosition(commands[1], zombie);
+        setCreaturesPosition(commands[2], zombie);
+        setZombieMoves(commands[3], zombie);  
+        process.exit(0);   
 
-        let [x,y] = input2.split(',');  
-        console.log(`Setting Initial Zombie Position to (${x},${y})`);
-        
-        let action = [placeZombie({ 'x': x, 
-                            'y': y, 
-                            'xMax': zombie.getWorld().getMaxX(), 
-                            'yMax': zombie.getWorld().getMaxY()
-                        })];
-        
-        action.forEach(zombie.getStore().dispatch);  
-
-    } else if ( i == 2) {
-        let input2 = input.trim();
-        input2 = input2.replaceAll(")(" , ",").replaceAll('(','').replaceAll(')','');
-        input2 = input2.split(",");
-
-        for (let i=0; i < input2.length; i+=2) {
-            console.log(`Setting creature with coordinates (${input2[i]},${input2[i+1]})`);
-
-            let action = [placeCreature({ 'x': input2[i], 
-                                          'y': input2[i+1], 
-                                          'xMax': zombie.getWorld().getMaxX(), 
-                                          'yMax': zombie.getWorld().getMaxY()
-                                        })];
-
-            action.forEach(zombie.getStore().dispatch);  
-        }
-
-    } else if ( i == 3) {
-
-        let commands = input.trim().split('');  
-        let action = [];
-     
-        action.push(moveZombie({ 'commands': commands,
-                                 'id' : 0 }));
-      
-        action.forEach(zombie.getStore().dispatch);          
-        i = -1;
+    // Process Input           
     } else {
-        console.log("Unknown input, resetting back to default state");
-        i = -1;
-    }
-    i++;
 
-    readLine.prompt();
+        input = input.trim();
+
+        switch (i) {
+            case 0:
+                setWorld(input, zombie);
+                break;
+            case 1:
+                setZombiePosition(input, zombie);
+                break;
+            case 2:
+                setCreaturesPosition(input, zombie);
+                break;
+            case 3:
+                setZombieMoves(input, zombie);
+                i = -1;
+                process.exit(0);
+            default:
+                console.log("Unknown input, resetting back to default state");
+                i = -1;
+        }
+
+        i++;
+        readLine.prompt();
+    }
 });
 
 // Set Ending Prompt
@@ -112,3 +88,100 @@ readLine.on("close", () => {
 // Trigger User Prompt
 readLine.setPrompt('Zombie> ');
 readLine.prompt();
+
+export const setZombieMoves = (input, zombie) => {
+    let commands = input.split('');          
+    zombie.getStore().dispatch(moveZombie({ 'commands': commands }));
+}
+
+export const setCreaturesPosition = (input, zombie) => {
+    
+    let parseInput = input.replaceAll(")(" , ",").replace(/[()]/g, '');
+    parseInput = parseInput.split(",");
+
+    for (let i=0; i < parseInput.length; i+=2) {
+        console.log(`Setting creature with coordinates (${parseInput[i]},${parseInput[i+1]})...`);
+
+        let action = [placeCreature({ 'x': parseInput[i], 
+                                      'y': parseInput[i+1], 
+                                      'xMax': zombie.getWorld().getMaxX(), 
+                                      'yMax': zombie.getWorld().getMaxY()
+                                    })];
+
+        action.forEach(zombie.getStore().dispatch);  
+    }
+}
+
+export const setZombiePosition = (input, zombie) => {
+    let parseInput = input.replace(/[()]/g, '');
+    let [x,y] = parseInput.split(',');  
+    x = x.trim();
+    y = y.trim();
+
+    console.log(`Setting Initial Zombie Position to (${x},${y})...`);
+    
+    let action = [placeZombie({ 'x': x, 
+                                'y': y, 
+                                'xMax': zombie.getWorld().getMaxX(), 
+                                'yMax': zombie.getWorld().getMaxY()
+                    })];
+    
+    action.forEach(zombie.getStore().dispatch);  
+}
+
+export const setWorld = (input, zombie) => {
+    const length = getWorldLength(input);
+    if (length > 0) {
+        console.log(`Creating world with dimensions (${length}x${length})`)
+        zombie.setWorld(new World(length, length));
+    } else {
+        console.log(notNumber);
+    }
+}
+
+export const getWorldLength = (length) => {
+    return (isNaN(length))? 0: length;
+}
+
+/**
+ * Reads the file based on the file path provided 
+ * @param  path
+ */   
+export const parseReadCommand = function(path) {
+
+    if (!isFileTypeTxt(path)) {
+        return [];
+    }
+    
+    try {
+        return fs.readFileSync(path, 'utf8').split('\n');
+    } catch(err) {
+        if (err.code === 'ENOENT') {
+            console.log(fileNotFound);
+        } else {
+            console.log(err);
+        }
+        return [];
+    }
+    
+}
+
+/**
+ * Checks if the file type extension is .txt
+ * @param  path
+ */   
+export const isFileTypeTxt = function(path) {
+    const fileType = path.substr(path.lastIndexOf('.')).toLowerCase();
+    
+    if (fileType !== '.txt'){ 
+        console.log(invalidFileExt);
+        return false;
+    } else {
+        return true;
+    }
+}
+
+String.prototype.replaceAll = function(str1, str2, ignore) 
+{
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);
+} 

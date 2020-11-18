@@ -1,24 +1,18 @@
 /**************************************************************************
 * Purpose: Zombie class - performs command actions based on user input
 ***************************************************************************/
-import Parser from "./parser";
 import configureStore from '../store/store';
 import chalk from "chalk";
 
 const colors = require('colors');
 
-
 export default class zombie {
 
     constructor() {
         this.world = null;
-        this.parser = new Parser();
         this.store = configureStore();
     } 
 
-    /**
-    * Prints welcome & available commands message
-    */   
     printMessage() {
         console.log('Welcome to the zombie apocalypse.'.green.bold);   
     }

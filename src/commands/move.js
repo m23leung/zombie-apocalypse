@@ -2,10 +2,10 @@
 * Purpose: Move command 
 ********************************/
 
-import { isValidMove } from "../validations/validations";
+import { isValidDirection } from "../validations/validations";
 import directions from "../constants/directions";
 import { command } from "./command";
-import { moveParseError } from "../constants/errorMessages";
+import { moveParseError, invalidDirection } from "../constants/errorMessages";
 
 export default class move extends command {
 
@@ -26,21 +26,18 @@ export default class move extends command {
  * If the unit tries to move outside boundaries, 
  * it will ignore the command.
  * @param  steps
+ * @param  commands
+ * @param  zombie 
  */
     moveUnit(steps, commands, zombie) {
 
-        // Pull data out from current state
         let state = this.state;
-
-        // Use ID to lookup data from state.zombies
         let { x, y, xMax, yMax, id } = zombie;
-        //console.log(`Original Point: ${id},${x},${y}`)
 
         // Convert to Integer
         steps = parseInt(steps);
         x = parseInt(x);
         y = parseInt(y);
-
 
         // If unexpected parse issue, flag as error
         if (isNaN(steps) || isNaN(x) || isNaN(y)) {
@@ -51,50 +48,20 @@ export default class move extends command {
         // Process each direction command
         for (let i=0; i < commands.length; i++) {
             let direction = commands[i];
-
-            //console.log("MOVING IN DIRECTION: ", direction);
-            // Calculate newly moved destination
-            switch(direction) {
-                case directions.DOWN:
-                    y+= steps;
-                    break;
-                case directions.UP:
-                    y-= steps;
-                    break;  
-                case directions.RIGHT:
-                    x+= steps;
-                    break;       
-                case directions.LEFT:
-                    x-= steps;
-                    break;                                                               
-            }
             
-            // Move through edge of the grid
-            if ( x < 0) {
-                x = xMax;
-            } else if ( x > xMax) {
-                x = 0;
+            if (!isValidDirection(direction)) {
+                console.log(invalidDirection);
+                continue;
             }
-            // Move through edge of the grid
-            if ( y < 0 ) {
-                y = yMax;
-            } else if (y > yMax) {
-                y = 0;
-            }
-        
-            
 
+            const newPosition = getNewPosition(steps, direction, x, y, xMax, yMax);
+            x = newPosition.x;
+            y = newPosition.y;
 
-                //const index = state.zombies.findIndex(zombie => zombie.id == id);
-                //console.log(`ID IS ${id}, index is ${index}`);
-                //state.zombies[index].x = parseInt(x);   
-                //state.zombies[index].y = parseInt(y);  
+            console.log(`zombie ${id} moved to (${x},${y})`)
 
-                console.log(`zombie ${id} moved to (${x},${y})`)
-
-                // Check if clashing with creature....
+            // Check if clashing with creature....
             for (let i = 0; i < state.creatures.length; i++) {
-                //console.log(`CREATURE: ${state.creatures[i].x} ${state.creatures[i].y}`);
 
                 // If zombie's new x,y clashes with creature, remove from creature list and add to zombie list
                 const creatureX = state.creatures[i].x;
@@ -103,36 +70,62 @@ export default class move extends command {
                 if ((x == creatureX) && (y == creatureY)) {
                     console.log(`zombie ${id} infected creature at (${x},${y})`);
                     
-                    // Infect the creature
                     // Remove from creature list
                     state.creatures.splice(i, 1);
 
-                    // Add to zombie list
-                    
-                    //state.zombies.push({    'x': creatureX, 
-                    //                        'y': creatureY, 
-                    //                        'xMax': xMax, 
-                    //                        'yMax': yMax });
-                    
-
-                    state.zombiesToProcess.push({    'x': creatureX, 
-                    'y': creatureY, 
-                    'id': state.zombieCount,
-                    'xMax': xMax, 
-                    'yMax': yMax });
+                    // Add to zombies to process list
+                    state.zombiesToProcess.push({    
+                        'x': creatureX, 
+                        'y': creatureY, 
+                        'id': state.zombieCount,
+                        'xMax': xMax, 
+                        'yMax': yMax });
 
                     state.zombieCount++;
                 } 
-            }
-
-            
+            } 
        }   
 
-       state.zombies.push({    'x': x, 
-       'y': y, 
-       'id': id,
-       'xMax': xMax, 
-       'yMax': yMax });
+       // Zombie finished moving, add to list of zombies' final positions
+       state.zombies.push({     'x': x, 
+                                'y': y, 
+                                'id': id,
+                                'xMax': xMax, 
+                                'yMax': yMax });
+                          }
+  }
 
+  export const getNewPosition = (steps, direction, x, y, xMax, yMax) => {
+
+    // Calculate newly moved destination
+    switch(direction) {
+    case directions.D:
+        y+= steps;
+        break;
+    case directions.U:
+        y-= steps;
+        break;  
+    case directions.R:
+        x+= steps;
+        break;       
+    case directions.L:
+        x-= steps;
+        break;                                                               
     }
+
+    // Move through x-axis of the grid
+    if ( x < 0) {
+        x = xMax;
+    } else if ( x > xMax) {
+        x = 0;
+    }
+    // Move through y-axis of the grid
+    if ( y < 0 ) {
+        y = yMax;
+    } else if (y > yMax) {
+        y = 0;
+    }
+
+    return {'x':x,
+            'y':y};
   }

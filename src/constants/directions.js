@@ -3,10 +3,10 @@
 *****************************************************/
 
 let directions = {
-    UP: 'U',
-    LEFT: 'L',
-    RIGHT: 'R',
-    DOWN: 'D',
+    U: 'U',
+    L: 'L',
+    R: 'R',
+    D: 'D',
 };
 
 export default Object.freeze(directions);

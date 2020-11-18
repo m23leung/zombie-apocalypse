@@ -3,7 +3,7 @@
 *****************************************************/
 
 import { createSlice } from '@reduxjs/toolkit';
-//import commandList from '../constants/directions';
+import units from "../constants/units";
 import Place from "../commands/place"
 import Move from "../commands/move";
 
@@ -22,45 +22,24 @@ const slice = createSlice({
         
         moveZombie: (state, action) => {  
 
+          // While there are zombies to process move commands, pop them off zombiesToProcess stack and
+          // initiate identical sequence of move commands
            while (state.zombiesToProcess.length > 0) {
              let zombieToProcess = state.zombiesToProcess.pop();
              let moveItem =  new Move(state, action, 1, action.payload.commands, zombieToProcess);
               moveItem.execute();                          
             }
-
-           // Report the final positions
-           console.log("");
-           console.log(`zombies' positions:`);
-           if (state.zombies.length < 1) 
-             console.log(`none`);
-           else {
-             let output = ``;
-
-             for (let i=0 ; i < state.zombies.length; i++) {
-                output += `(${state.zombies[i].x},${state.zombies[i].y})`;
-             }
-             console.log(output);
-           }
-
-           console.log(`creatures' positions:`);
-           if (state.creatures.length < 1) 
-            console.log(`none`);
-           else {
-            for (let i=0; i < state.creatures.length; i++) {
-                console.log(`(${state.creatures[i].x},${state.creatures[i].y})`);
-           }
-           
-        }
-        
+            
+            // Once processed all zombies moves, print program output
+           printOutput(state);
         }, 
-        placeZombie: (state, action) => {  
-            let placeItem =  new Place(state, action, "zombie");
+         placeZombie: (state, action) => {  
+            let placeItem =  new Place(state, action, units.ZOMBIE);
             placeItem.execute();
          },
          placeCreature: (state, action) => {
-            //let placeItem =  new Place(state, action, "creature");
-            //placeItem.execute();
-            state.creatures.push(action.payload);            
+            let placeItem =  new Place(state, action, units.CREATURE);
+            placeItem.execute();          
          }
     }
 })
@@ -68,7 +47,30 @@ const slice = createSlice({
 export const {placeZombie, placeCreature, moveZombie } = slice.actions;
 export default slice.reducer;
 
-// Selector - Takes state and returns computed state
-export const getDirection = state => {
-    return state.direction;
+/**
+*  Prints program output
+**/  
+export const printOutput = (state) => {
+  console.log("--------------------------");
+  console.log(`zombies' positions:`);
+  printPositions(state.zombies);
+  console.log(`creatures' positions:`);
+  printPositions(state.creatures);
+  console.log("--------------------------");
+}
+
+/**
+*  Prints unit positions out. Helper function
+**/    
+export const printPositions = (unitList) => {
+  let output = '';
+
+  if (unitList.length < 1) {
+    output = 'none';
+  } else {
+    for (let i=0; i < unitList.length; i++) {
+      output += `(${unitList[i].x},${unitList[i].y})`;
+    }
+  }
+  console.log(output);
 }

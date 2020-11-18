@@ -4,15 +4,15 @@
 ********************************/
 
 import { command } from "./command";
+import units from "../constants/units";
 import { isValidMove } from "../validations/validations";
 
 export default class place extends command {
 
 
-    constructor(state, action, type='zombie') {
+    constructor(state, action, type) {
         super(state, action);
         this.type = type;
-
       }
   
     execute() {
@@ -29,22 +29,16 @@ export default class place extends command {
         const { x, y, xMax, yMax } = this.action.payload;      
         let state = this.state;
 
-        // Only place unit if within table boundaries and valid direction
+        // Only place unit if within boundaries
         if ( isValidMove(x, xMax, y, yMax)) {
-    
-             // Set unit coordinates and direction
-             state.x = x;
-             state.y = y;
-
-             // Set placed flag
-             state.isPlaced = true;
-    
-             // Set table dimensions
-             state.xMax = xMax;
-             state.yMax = yMax;
-             state.zombiesToProcess.push({ 'x': x, 'xMax': xMax, 'yMax': yMax, 'y': y, 'id': state.zombieCount});
-             //console.log(`PLACING ${state.x} ${state.y}`)
-             state.zombieCount++;
+             if (type == units.CREATURE) {
+                state.creatures.push(this.action.payload);  
+             } else {
+                state.zombiesToProcess.push({ 'x': x, 'xMax': xMax, 'yMax': yMax, 'y': y, 'id': state.zombieCount});
+                state.zombieCount++;
+             }
+        } else {
+            process.exit(0);
         }
     }
 }
