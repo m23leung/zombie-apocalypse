@@ -50,7 +50,6 @@ export default class move extends command {
             let direction = commands[i];
             
             if (!isValidDirection(direction)) {
-                console.log(invalidDirection);
                 continue;
             }
 
@@ -58,7 +57,7 @@ export default class move extends command {
             x = newPosition.x;
             y = newPosition.y;
 
-            console.log(`zombie ${id} moved to (${x},${y})`)
+            console.log(`zombie ${id} moved to (${x},${y}).`)
 
             // Check if clashing with creature....
             for (let i = 0; i < state.creatures.length; i++) {
@@ -68,7 +67,7 @@ export default class move extends command {
                 const creatureY = state.creatures[i].y;
 
                 if ((x == creatureX) && (y == creatureY)) {
-                    console.log(`zombie ${id} infected creature at (${x},${y})`);
+                    console.log(`zombie ${id} infected creature at (${x},${y}).`);
                     
                     // Remove from creature list
                     state.creatures.splice(i, 1);

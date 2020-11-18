@@ -1,8 +1,8 @@
 /****************************************************
 * Purpose: Contains reducer for Redux store
 *****************************************************/
-
 import { createSlice } from '@reduxjs/toolkit';
+import { printUnitPositions } from "./printHelper";
 import units from "../constants/units";
 import Place from "../commands/place"
 import Move from "../commands/move";
@@ -29,9 +29,6 @@ const slice = createSlice({
              let moveItem =  new Move(state, action, 1, action.payload.commands, zombieToProcess);
               moveItem.execute();                          
             }
-            
-            // Once processed all zombies moves, print program output
-           printOutput(state);
         }, 
          placeZombie: (state, action) => {  
             let placeItem =  new Place(state, action, units.ZOMBIE);
@@ -40,37 +37,12 @@ const slice = createSlice({
          placeCreature: (state, action) => {
             let placeItem =  new Place(state, action, units.CREATURE);
             placeItem.execute();          
+         },
+         printFinalPositions: (state, action) => {
+           printUnitPositions(state);
          }
     }
 })
 
-export const { placeZombie, placeCreature, moveZombie } = slice.actions;
+export const { placeZombie, placeCreature, moveZombie, printFinalPositions } = slice.actions;
 export default slice.reducer;
-
-/**
-*  Prints program output
-**/  
-export const printOutput = (state) => {
-  console.log("--------------------------");
-  console.log(`zombies' positions:`);
-  printPositions(state.zombies);
-  console.log(`creatures' positions:`);
-  printPositions(state.creatures);
-  console.log("--------------------------");
-}
-
-/**
-*  Prints unit positions out. Helper function
-**/    
-export const printPositions = (unitList) => {
-  let output = '';
-
-  if (unitList.length < 1) {
-    output = 'none';
-  } else {
-    for (let i=0; i < unitList.length; i++) {
-      output += `(${unitList[i].x},${unitList[i].y})`;
-    }
-  }
-  console.log(output);
-}

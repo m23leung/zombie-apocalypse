@@ -6,6 +6,7 @@
 import { command } from "./command";
 import units from "../constants/units";
 import { isValidMove } from "../validations/validations";
+import { invalidCoordinates } from "../constants/errorMessages";
 
 export default class place extends command {
 
@@ -26,8 +27,15 @@ export default class place extends command {
  */   
     placeUnit(type) {
 
-        const { x, y, xMax, yMax } = this.action.payload;      
+        let { x, y, xMax, yMax } = this.action.payload;      
         let state = this.state;
+    
+        // If unparsable coordinates, throw error
+        if ( isNaN(parseInt(x)) || isNaN(parseInt(y))) {
+            console.log(invalidCoordinates,`(${x},${y})`);
+            process.exit(0);
+            return;
+        }
 
         // Only place unit if within boundaries
         if ( isValidMove(x, xMax, y, yMax)) {
