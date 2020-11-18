@@ -10,12 +10,14 @@
 <img src="zombie.png" alt="zombie" width="315" height="515"/>
 
 ## Description
-Zombie Apocalypse is a program that permits a zombie to be controlled from your terminal. It walks around the world and infects creatures, whom will become zombies if touched.
+Zombie Apocalypse is a program that takes in commands from ther terminal. It walks around the world and infects creatures, whom will become zombies if touched.
 
-At the beginning of the program, a single zombie awakes and begins to move around thegrid following a sequence of movements. Valid movements are Up, Down, Left, RIght. The movement sequence is represented by a string of single character movements, e.g. RDRU
-(Right, Down, Right, Up).
+At the beginning of the program, a single zombie awakes and begins to move around thegrid following a sequence of movements. Valid movements are Up, Down, Left, Right. The movement sequence is represented by a string of single character movements, e.g. RDRU
+(Right, Down, Right, Up). Zombies can move through the edge of the grid, appearing on the directly opposite side. 
 
-Zombies can move through the edge of the grid, appearing on the directly opposite side
+As a zombie moves, if it ends up on the same square as a creature, the creature is transformed into another zombie. The creatures are aware of the zombie’s presence but are so frightened that they never move.
+
+Once a zombie has completed its movement, the first newly created zombie moves using the same sequence as the original zombie,then the second newly created zombie moves, and so on, in order of infection. Each zombie performs the same sequence of moves. Once all zombies have completed moving, the final positions of all zombies and creatures should be output, then the program ends.
 
 ## Technology Stack
 - Javascript
