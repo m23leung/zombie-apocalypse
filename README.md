@@ -69,7 +69,6 @@ Note: Please make sure to have node.js installed.
 - In terms of the program execution flow, the program first gets initialized, then the world. Once the user inputs from terminal, it gets parsed and then invokes the actionHelper to dispatch the appropriate action to the redux store. The validation functions are used to validate the input data and throw appropriate error messages. The redux store will then call the reducer with the appropriate dispatched command to be executed. Once the command is executed, the state will be mutated and saved (thanks to ImmerJS). In our case, this means the zombies' positions on the world will be updated after successful execution.
 
 ## Assumptions and improvements
-- Given more time, I would clean up the error framework, because at the moment, the error checking in the code is not very well structured.
 - Input for dimensions of grid and initial position of zombie is mandatory (First two input lines). However, the rest are the inputs are optional (Creatures' positions & move commands). If the program parses any invalid coordinates for creatures', those will be skipped over. The likewise applies for invalid move commands (any move command that is not RDLU).
-
+- Given more time, I would clean up the error framework, because at the moment, the error checking in the code is not very well structured.
 
