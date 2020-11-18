@@ -3,7 +3,7 @@
 *****************************************************/
 
 import { expect } from 'chai';
-import { printOutput, processMoveZombie, setCreaturesPosition, setZombiePosition, setWorld, getWorldLength  } from '../../src/actions/actionHelper'; 
+import { printOutput, processMoveZombie, setCreaturesPosition, setZombiePosition, getWorldLength  } from '../../src/actions/actionHelper'; 
 import Program from "../../src/components/program";
 
 describe("actionHelper - Commands", function() {
@@ -14,11 +14,11 @@ describe("actionHelper - Commands", function() {
     const creaturesPosition = "(2,2) (4,4) (6,6) (8,8)";
     const directionCommands = "RDRU";
 
-    it(`actionHelper - setWorld ${dimensions}x${dimensions}`, function() {
-        setWorld(dimensions, program);
-        expect(program.getWorld().getMaxX()).to.be.equal(dimensions-1);
-        expect(program.getWorld().getMaxY()).to.be.equal(dimensions-1);
-    })
+    it(`Valid - Program Set World`, function() {
+        program.setWorld(dimensions);
+        expect(program.getWorld().getMaxX()).to.be.equal(9);
+        expect(program.getWorld().getMaxY()).to.be.equal(9);
+      })
 
     it(`actionHelper - setZombiePosition ${initialPosition}`, function() {
         setZombiePosition(initialPosition, program);

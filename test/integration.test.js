@@ -21,7 +21,7 @@ describe("integration - Sample Input", function() {
     const finalZombiePositions = [[1,1],[3,1],[3,2],[2,1]];
 
     it(`actionHelper - setWorld ${dimensions}x${dimensions}`, function() {
-        setWorld(dimensions, program);
+        program.setWorld(dimensions);
         expect(program.getWorld().getMaxX()).to.be.equal(dimensions-1);
         expect(program.getWorld().getMaxY()).to.be.equal(dimensions-1);
     })
@@ -70,7 +70,7 @@ describe("integration - Read Files", function() {
         let program = new Program();
         let commands = parseReadCommand(filePath1);
 
-        setWorld(commands[0], program);
+        program.setWorld(commands[0]);
         expect(program.getWorld().getMaxX()).to.be.equal(3);
         expect(program.getWorld().getMaxY()).to.be.equal(3);
 
@@ -109,7 +109,7 @@ describe("integration - Read Files", function() {
         let program = new Program();
         let commands = parseReadCommand(filePath2);
 
-        setWorld(commands[0], program);
+        program.setWorld(commands[0]);
         expect(program.getWorld().getMaxX()).to.be.equal(3);
         expect(program.getWorld().getMaxY()).to.be.equal(3);
 
