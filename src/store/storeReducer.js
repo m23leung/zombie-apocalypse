@@ -44,7 +44,7 @@ const slice = createSlice({
     }
 })
 
-export const {placeZombie, placeCreature, moveZombie } = slice.actions;
+export const { placeZombie, placeCreature, moveZombie } = slice.actions;
 export default slice.reducer;
 
 /**

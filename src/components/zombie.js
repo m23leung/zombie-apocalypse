@@ -34,6 +34,7 @@ export default class zombie {
     * If user enters invalid commands, they will be rejected
     * @param  input
     */      
+   /*
     handleCommand(input) {
         
         if (!input.trim()) return;    
@@ -45,4 +46,5 @@ export default class zombie {
         action.forEach(store.dispatch);  
 
     }
+    */
 }
