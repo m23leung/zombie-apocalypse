@@ -6,9 +6,6 @@ import { expect } from 'chai';
 import { isValidMove, isValidDirection } from "../../src/validations/validations";
 import directions from "../../src/constants/directions";
 
-import Zombie from "../../src/components/zombie";
-import World from "../../src/components/world";
-
 describe("validations - Valid Moves", function() {
       // [x, xMax, y, yMax]
       let validMoves = [[4,4,1,4], [0,4,0,4],[2,4,3,4],[4,4,4,4], [1,1,1,1], [3,4,1,4]];

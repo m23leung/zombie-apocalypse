@@ -14,6 +14,7 @@ describe("Redux store test", function() {
 
     it(`Check initial state of Redux store`, function() {
         expect(store.getState().creatures.length).to.equal(0);
+        expect(store.getState().creatureCount).to.equal(0);
         expect(store.getState().zombies.length).to.equal(0);
         expect(store.getState().zombiesToProcess.length).to.equal(0);
         expect(store.getState().zombieCount).to.equal(0);

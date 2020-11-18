@@ -19,7 +19,6 @@ export const setCreaturesPosition = (input, zombie) => {
 
     let parseInput = input.replace(/\s/g, '').replaceAll(")(" , ",").replace(/[()]/g, '');
     parseInput = parseInput.split(",");
-    //console.log(parseInput);
 
     for (let i=0; i < parseInput.length; i+=2) {
 
@@ -66,3 +65,8 @@ export const setWorld = (input, zombie) => {
 export const getWorldLength = (length) => {
     return (isNaN(length))? 0: length;
 }
+
+String.prototype.replaceAll = function(str1, str2, ignore)
+{	
+    return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g,"\\$&"),(ignore?"gi":"g")),(typeof(str2)=="string")?str2.replace(/\$/g,"$$$$"):str2);	
+} 

@@ -8,7 +8,7 @@ import { setWorld, setZombiePosition, setCreaturesPosition, processMoveZombie, p
 import { parseReadCommand } from "./src/readHelper";
 import { notNumber, invalidArguments } from "./src/constants/errorMessages";
 
-// Initialize robot
+// Initialize zombie
 let zombie = new Zombie();
 
 // Print the menu screen details
@@ -39,7 +39,6 @@ readLine.on("line", (input) => {
     // Command: read <file_path>
     } else if (input.toLowerCase().trim().includes("read")) {
 
-       
         const inputCommand = input.split(" ");
         if (inputCommand.length != 2) {
             console.log(invalidArguments);

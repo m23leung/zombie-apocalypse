@@ -49,9 +49,7 @@ Note: Please make sure to have node.js installed.
 > npm test
 
 ## Design and Architecture
-- I have developed this program with an OOP approach, where ES6 classes are used to preserve encapsulation. Redux was used to manage the state of the zombie and creatures's location on the board. It can also be used to store the previous state and other useful properties. By using the store and action reducers, we are able to execute the appropriate commands.
-
-- It can be argued that an OOP approach will be more memory consuming/performance heavy than going a purely functional programming approach. As a result, I tried to not create any unnecessary classes and minimized the amount of object creation instances.
+- I have developed this program using an OOP approach, where ES6 classes are used to preserve encapsulation. Redux was used to manage the state of the zombie and creatures's positions on the world grid. By using the store and action reducers, we are able to execute the appropriate commands in Redux. I also used Redux to store a zombiesToProcess list, which are the list of zombies which need to perform the sequence of movements. Once the zombie has completed it's movements, I add them to the zombies list. While the zombie is moving, if it finds any creatures, the logic will remove the creature from the creatures list and add it to the zombiesToProcess list, which will then need to process the sequence of movements as mentioned. In order to preserve the LIFO order, I pop off the most recently infected/added zombie from the zombiesToProcess list, to process the sequence of movements. Also, the Redux stores the zombiesCount and creaturesCount, which is used to set the ID of each zombie and creature that during storing into our zombies and creatures lists.
 
 ## Conclusion
 - If I were to add more features, I would...
