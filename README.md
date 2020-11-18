@@ -70,6 +70,6 @@ Note: Please make sure to have node.js installed.
 
 ## Assumptions and improvements
 - Input for dimensions of grid and initial position of zombie is mandatory (First two input lines). However, the rest are the inputs are optional (Creatures' positions & move commands). If the program parses any non-integer coordinates for creatures', those will be skipped over. The likewise applies for invalid move commands (any move command that is not RDLU).
-- Given more time, I would clean up the error framework, because at the moment, the error checking in the code is not very well structured.
 - If we attempt to place any units outside the world dimensions, it will throw an error.
+- Given more time, I would clean up the error framework, because at the moment, the error checking in the code is not very well structured.
 
