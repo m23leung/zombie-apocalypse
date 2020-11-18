@@ -147,7 +147,7 @@ export default class program {
         });
 
         // Trigger User Prompt
-        readLine.setPrompt('Zombie> ');
+        readLine.setPrompt('Zombie Apocalypse> ');
         readLine.prompt();
             }
 }
