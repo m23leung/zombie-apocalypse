@@ -15,7 +15,9 @@ After the nuclear war, a strange and deadly virus has infected the planet produc
 At the beginning of the program, a single zombie awakes and begins to move around the grid following a sequence of movements. Valid movements are Up, Down, Left, Right. The movement sequence is represented by a string of single character movements, e.g. RDRU
 (Right, Down, Right, Up). Zombies can move through the edge of the grid, appearing on the directly opposite side. The world is represented by an N x N grid on which zombies and creatures live.
 
-As a zombie moves, if it ends up on the same square as a creature, the creature is transformed into another zombie. The creatures are aware of the zombie’s presence but are so frightened that they never move. Once a zombie has completed its movement, the first newly created zombie moves using the same sequence as the original zombie,then the second newly created zombie moves, and so on, in order of infection. Each zombie performs the same sequence of moves. Once all zombies have completed moving, the final positions of all zombies and creatures should be output, then the program ends.
+As a zombie moves, if it ends up on the same square as a creature, the creature is transformed into another zombie. The creatures are aware of the zombie’s presence but are so frightened that they never move. 
+
+Once a zombie has completed its movement, the first newly created zombie moves using the same sequence as the original zombie,then the second newly created zombie moves, and so on, in order of infection. Each zombie performs the same sequence of moves. Once all zombies have completed moving, the final positions of all zombies and creatures should be output, then the program ends.
 
 These are the order of valid commands:
 
@@ -23,8 +25,6 @@ These are the order of valid commands:
 2. Initial position of zombie (X,Y)
 3. List of initial positions of the creatures (X1,Y1)(X2,Y2)(X3,Y3)
 4. Sequence of moves the zombies will make (RDLU)
-
-- The program will output the zombies' and creatures' final positions after moving
 
 Example input:
 - 4
