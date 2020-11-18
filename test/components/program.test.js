@@ -15,6 +15,12 @@ describe("zombie - Valid test", function() {
         expect(program.getWorld().getMaxY()).to.be.equal(4);
       })
 
+      it(`Valid - Program Set World NULL`, function() {
+        let program2 = new Program();
+        expect(program2.getWorld()).to.be.equal(null);
+        expect(program2.getWorld()).to.be.equal(null);
+      })
+
       it(`Valid - Program Set Store`, function() {
         expect(program.getStore().getState().creatures.length).to.equal(0);
         expect(program.getStore().getState().creatureCount).to.equal(0);
