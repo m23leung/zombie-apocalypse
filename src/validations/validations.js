@@ -2,7 +2,7 @@
 * Purpose: Contains all the validation functions
 *****************************************************/
 
-import { invalidDirection, invalidPlacement } from "../constants/errorMessages";
+import errorMessages from "../constants/errorMessages";
 import directions from "../constants/directions";
 
 /**
@@ -14,7 +14,7 @@ import directions from "../constants/directions";
 */      
 export const isValidMove = (x, xMaxLength, y, yMaxLength) => {
     if ( (x > xMaxLength ) || (x < 0) || (y < 0) || (y > yMaxLength )) {
-        console.log(invalidPlacement);
+        console.log(errorMessages.invalidPlacement);
         return false;
     }
     return true;
@@ -26,7 +26,7 @@ export const isValidMove = (x, xMaxLength, y, yMaxLength) => {
 */  
 export const isValidDirection = (direction) => {
     if ( !directions[direction]) {
-        console.log(invalidDirection);
+        console.log(errorMessages.invalidDirection);
         return false;
     }
     return true;

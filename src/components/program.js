@@ -4,7 +4,7 @@
 import configureStore from '../store/store';
 import { setZombiePosition, setCreaturesPosition, processMoveZombie, printOutput } from "../actions/actionHelper";
 import { parseReadCommand } from "../readHelper";
-import { notNumber } from "../constants/errorMessages";
+import errorMessages from "../constants/errorMessages";
 import World from "./world";
 import chalk from "chalk";
 
@@ -43,14 +43,19 @@ export default class program {
         console.log('- Please note that the zombies can move through the edge of the grid, appearing directly on the opposite side.');
         console.log();  
     }
-    
+ 
+    /**
+    * Create World
+    * @param  input
+    */        
     setWorld(input) {
-        const length = (isNaN(input))? 0: input;
+        const length = (isNaN(input))? 0 : input;
         if (length > 0) {
             console.log(`Creating world with dimensions (${length}x${length})`)
             this.world = new World(length, length);
         } else {
-            console.log(notNumber);
+            console.log(errorMessages.notNumber);
+            process.exit(0);
         }
     }
 
@@ -62,11 +67,10 @@ export default class program {
         return this.store;
     }
     
+    /**
+    * Read input from terminal
+    */      
     parseInput() {
-
-        // **********************************
-        //   ReadLine Input - User Interface
-        // **********************************
 
         const readline = require('readline')
 
@@ -91,7 +95,7 @@ export default class program {
 
                 const inputCommand = input.split(" ");
                 if (inputCommand.length != 2) {
-                    console.log(invalidArguments);
+                    console.log(errorMessages.invalidArguments);
                     process.exit(0);
                 }
                 
@@ -127,8 +131,8 @@ export default class program {
                         i = -1;
                         process.exit(0);
                     default:
-                        console.log("Unknown input, resetting back to default state");
-                        i = -1;
+                        // Should never reach this case
+                        process.exit(0);
                 }
 
                 i++;

@@ -5,7 +5,7 @@
 import { isValidDirection } from "../validations/validations";
 import directions from "../constants/directions";
 import { command } from "./command";
-import { moveParseError, invalidDirection } from "../constants/errorMessages";
+import errorMessages from "../constants/errorMessages";
 
 export default class move extends command {
 
@@ -22,9 +22,7 @@ export default class move extends command {
     }
 
 /**
- * Moves the unit X steps in the facing direction.
- * If the unit tries to move outside boundaries, 
- * it will ignore the command.
+ * Moves the unit X steps with the sequence of commands.
  * @param  steps
  * @param  commands
  * @param  zombie 
@@ -41,7 +39,7 @@ export default class move extends command {
 
         // If unexpected parse issue, flag as error
         if (isNaN(steps) || isNaN(x) || isNaN(y)) {
-            console.log(moveParseError);
+            console.log(errorMessages.moveParseError);
             return;
         }
 

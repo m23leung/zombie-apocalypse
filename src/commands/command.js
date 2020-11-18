@@ -10,7 +10,7 @@ export class command {
     }
 
     execute() {
-        // Placeholder for execute
+        // Placeholder for execute, will be overidden
     }
 
 }

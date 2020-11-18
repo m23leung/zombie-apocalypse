@@ -16,6 +16,7 @@ export default class report extends command {
 
   /**
   *  Prints unit positions out.
+  * @param  state
   **/      
   printUnitPositions(state) {
     console.log("--------------------------");
@@ -28,6 +29,7 @@ export default class report extends command {
   
   /**
   *  Prints unit positions out. Helper function
+  * @param  unitList
   **/    
   printPositions(unitList) {
     let output = '';

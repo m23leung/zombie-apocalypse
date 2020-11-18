@@ -7,17 +7,17 @@ import World from "../../src/components/world";
 
 describe("world - Valid World", function() {
   
-      let tableDimensionsList = [ 
-                                    {'tableWidth': 5, 'tableLength': 5},
-                                    {'tableWidth': 10, 'tableLength': 10},
+      let worldDimensionsList = [ 
+                                    {'worldWidth': 5, 'worldLength': 5},
+                                    {'worldWidth': 10, 'worldLength': 10},
                                 ];
 
-      tableDimensionsList.map( tableDimensions => {
-        it(`Create World - ${tableDimensions.tableWidth}x${tableDimensions.tableLength}`, function() {
-          let table = new World(tableDimensions.tableWidth, tableDimensions.tableLength);
+      worldDimensionsList.map( worldDimensions => {
+        it(`Create World - ${worldDimensions.worldWidth}x${worldDimensions.worldLength}`, function() {
+          let world = new World(worldDimensions.worldWidth, worldDimensions.worldLength);
 
-          expect(table.getMaxX()).to.be.equal(tableDimensions.tableWidth - 1);
-          expect(table.getMaxY()).to.be.equal(tableDimensions.tableLength - 1);
+          expect(world.getMaxX()).to.be.equal(worldDimensions.worldWidth - 1);
+          expect(world.getMaxY()).to.be.equal(worldDimensions.worldLength - 1);
 
         });      
       });

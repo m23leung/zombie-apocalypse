@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { invalidFileExt, fileNotFound } from "./constants/errorMessages";
+import errorMessages from "./constants/errorMessages";
 
 /**
  * Reads the file based on the file path provided 
@@ -15,7 +15,7 @@ export const parseReadCommand = function(path) {
         return fs.readFileSync(path, 'utf8').split('\n');
     } catch(err) {
         if (err.code === 'ENOENT') {
-            console.log(fileNotFound);
+            console.log(errorMessages.fileNotFound);
             process.exit(0);
         } else {
             console.log(err);
@@ -34,7 +34,7 @@ export const isFileTypeTxt = function(path) {
     const fileType = path.substr(path.lastIndexOf('.')).toLowerCase();
     
     if (fileType !== '.txt'){ 
-        console.log(invalidFileExt);
+        console.log(errorMessages.invalidFileExt);
         return false;
     } else {
         return true;
