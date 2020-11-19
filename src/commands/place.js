@@ -30,7 +30,7 @@ export default class place extends command {
 
         let { x, y, xMax, yMax } = this.action.payload;      
         let state = this.state;
-    
+
         // If unparsable coordinates, throw error
         if ( isNaN(parseInt(x)) || isNaN(parseInt(y))) {
             console.log(errorMessages.invalidCoordinates,`(${x},${y})`);

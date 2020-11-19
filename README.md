@@ -73,7 +73,7 @@ Note: Please make sure to have node.js installed.
 - I have implemented TDD during development, with unit and integration testing. Please see test folder.
 
 ## Assumptions and improvements
-- Input for dimensions of grid and initial position of zombie is mandatory (First two input lines). However, the rest are the inputs are optional (Creatures' positions & move commands). If the program parses any non-integer coordinates for creatures', those will be skipped over. The likewise applies for invalid move commands (any move command that is not RDLU).
+- Input for dimensions of grid and initial position of zombie is mandatory (first two input lines). However, the rest are the inputs are optional (Creatures' positions & move commands). If the program parses any non-integer coordinates for creatures', those will be skipped over. The likewise applies for invalid move commands (any move command that is not RDLU).
 - If we attempt to place any units outside the world dimensions, it will throw an error and exit the program.
-- Given more time, I would increase the level of unit testing of helper functions for the commands (move/place/report). I would also clean up the error framework, because at the moment, the error checking and parsing in the code could be better structured.
+- Given more time, I would increase the level of unit testing for the commands (move/place/report). I would also clean up the error framework, because at the moment, the error checking and parsing in the code could be better structured.
 

@@ -46,7 +46,6 @@ describe("actionHelper - Commands", function() {
         const initialZombie = program.getStore().getState().zombies[0];
         expect(initialZombie.x).to.be.equal(2);
         expect(initialZombie.y).to.be.equal(0);        
-        //printOutput(program);
     })
 
 });

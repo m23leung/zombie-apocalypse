@@ -65,8 +65,10 @@ export const setZombiePosition = (input, program) => {
         process.exit(0);
     }
 
-    let parseInput = input.replace(/[()]/g, '');
-    let [x,y] = parseInput.split(',');  
+    let parseInput = input.replace(/\s/g, '').replaceAll(")(" , ",").replace(/[()]/g, '');
+    parseInput = parseInput.split(",");
+    let x = parseInput[0].trim();
+    let y = parseInput[1].trim();
     
     let action = [placeZombie({ 'x': x, 
                                 'y': y, 

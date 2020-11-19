@@ -7,7 +7,7 @@ import configureStore from '../../src/store/store';
 import { placeZombie, placeCreature, moveZombie } from '../../src/store/storeReducer';
 import directions from "../../src/constants/directions";
 
-// Testing here includes for both files commands/commands & commands/store
+// Testing here includes for both files store & storeReducer
 describe("Redux store test", function() {
 
     const store = configureStore();
