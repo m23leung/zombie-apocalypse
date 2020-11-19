@@ -43,6 +43,9 @@ export default class move extends command {
             return;
         }
 
+        // Check if clashing with creature before any moving sequence is initiated...
+        this.infectCreatures(state, id, x, xMax, y, yMax);
+
         // Process each direction command
         for (let i=0; i < commands.length; i++) {
             let direction = commands[i];
@@ -51,36 +54,14 @@ export default class move extends command {
                 continue;
             }
 
-            const newPosition = getNewPosition(steps, direction, x, y, xMax, yMax);
+            let newPosition = this.getNewPosition(steps, direction, x, y, xMax, yMax);
             x = newPosition.x;
             y = newPosition.y;
 
             console.log(`zombie ${id} moved to (${x},${y}).`)
 
-            // Check if clashing with creature....
-            for (let i = 0; i < state.creatures.length; i++) {
-
-                // If zombie's new x,y clashes with creature, remove from creature list and add to zombie list
-                const creatureX = state.creatures[i].x;
-                const creatureY = state.creatures[i].y;
-
-                if ((x == creatureX) && (y == creatureY)) {
-                    console.log(`zombie ${id} infected creature at (${x},${y}).`);
-                    
-                    // Remove from creature list
-                    state.creatures.splice(i, 1);
-
-                    // Add to zombies to process list
-                    state.zombiesToProcess.push({    
-                        'x': creatureX, 
-                        'y': creatureY, 
-                        'id': state.zombieCount,
-                        'xMax': xMax, 
-                        'yMax': yMax });
-
-                    state.zombieCount++;
-                } 
-            } 
+            // Check if clashing with creature after every move....
+            this.infectCreatures(state, id, x, xMax, y, yMax);
        }   
 
        // Zombie finished moving, add to list of zombies' final positions
@@ -89,40 +70,84 @@ export default class move extends command {
                                 'id': id,
                                 'xMax': xMax, 
                                 'yMax': yMax });
+                          
+    }
+    
+     /**
+     *  Infects creatures if zombie on same position
+     * @param  state
+     * @param  id
+     * @param  x
+     * @param  xMax
+     * @param  y
+     * @param  yMax
+     */     
+    infectCreatures(state, id, x, xMax, y, yMax) {
+
+        for (let i = 0; i < state.creatures.length; i++) {
+            // If zombie's x,y clashes with creature, remove from creature list and add to zombie list
+            const creatureX = state.creatures[i].x;
+            const creatureY = state.creatures[i].y;
+
+            if ((x == creatureX) && (y == creatureY)) { 
+                console.log(`zombie ${id} infected creature at (${x},${y}).`);
+                    
+                // Remove from creature list
+                state.creatures.splice(i, 1);
+
+                // Add to zombies to process list
+                state.zombiesToProcess.push({    
+                    'x': creatureX, 
+                    'y': creatureY, 
+                    'id': state.zombieCount,
+                    'xMax': xMax, 
+                    'yMax': yMax });
+
+                state.zombieCount++;                
+            }          
+        }
+    }
+    /**
+     *  Get new position
+     * @param  steps
+     * @param  direction
+     * @param  x
+     * @param  y
+     * @param  xMax
+     * @param  yMax
+     */   
+    getNewPosition(steps, direction, x, y, xMax, yMax) {
+
+                            // Calculate newly moved position
+                            switch(direction) {
+                            case directions.D:
+                                y+= steps;
+                                break;
+                            case directions.U:
+                                y-= steps;
+                                break;  
+                            case directions.R:
+                                x+= steps;
+                                break;       
+                            case directions.L:
+                                x-= steps;
+                                break;                                                               
+                            }
+                        
+                            // Move through x-axis of the grid
+                            if ( x < 0) {
+                                x = xMax;
+                            } else if ( x > xMax) {
+                                x = 0;
+                            }
+                            // Move through y-axis of the grid
+                            if ( y < 0 ) {
+                                y = yMax;
+                            } else if (y > yMax) {
+                                y = 0;
+                            }
+                        
+                            return {'x':x,
+                                    'y':y};
                           }
-  }
-
-  export const getNewPosition = (steps, direction, x, y, xMax, yMax) => {
-
-    // Calculate newly moved destination
-    switch(direction) {
-    case directions.D:
-        y+= steps;
-        break;
-    case directions.U:
-        y-= steps;
-        break;  
-    case directions.R:
-        x+= steps;
-        break;       
-    case directions.L:
-        x-= steps;
-        break;                                                               
-    }
-
-    // Move through x-axis of the grid
-    if ( x < 0) {
-        x = xMax;
-    } else if ( x > xMax) {
-        x = 0;
-    }
-    // Move through y-axis of the grid
-    if ( y < 0 ) {
-        y = yMax;
-    } else if (y > yMax) {
-        y = 0;
-    }
-
-    return {'x':x,
-            'y':y};
   }
