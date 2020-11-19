@@ -38,8 +38,9 @@ Example output:
 - creatures’ positions:
 - none
 
-READ textfiles/example.txt
-- You can use any textfile on your computer. The program will execute all the valid commands within.
+READ testfiles/example.txt
+- You can use any .txt file on your computer. The program will execute all the valid commands within.
+- There are some samples test files in testfiles folder (Ex: testfiles/example.txt).
 
 EXIT
 - Will close the program
