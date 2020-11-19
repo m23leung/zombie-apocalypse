@@ -69,8 +69,11 @@ Note: Please make sure to have node.js installed.
 
 - In terms of the program execution flow, the program first gets initialized with the Redux store, then the world. Once the user inputs from terminal, it gets parsed and then invokes the actionHelper to dispatch the appropriate action to the redux store. The redux store will then call the reducer with the appropriate dispatched command to be executed. Once the command is executed (move/place/report), the zombies & creatures position on the world will be updated.
 
+## Testing
+- I have implemented TDD during development, with unit and integration testing. Please see test folder.
+
 ## Assumptions and improvements
 - Input for dimensions of grid and initial position of zombie is mandatory (First two input lines). However, the rest are the inputs are optional (Creatures' positions & move commands). If the program parses any non-integer coordinates for creatures', those will be skipped over. The likewise applies for invalid move commands (any move command that is not RDLU).
 - If we attempt to place any units outside the world dimensions, it will throw an error.
-- Given more time, I would clean up the error framework, because at the moment, the error checking in the code is not very well structured.
+- Given more time, I would increase the level of unit testing of helper functions for the commands (move/place/report). I would also clean up the error framework, because at the moment, the error checking and parsing in the code could be better structured.
 
